@@ -3,154 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrix Terminal</title>
-
+    <meta name="theme-color" content="#050805">
+    <title>Matrix Terminal v0.2</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background: #050805;
-            color: #00ff41;
-            font-family: "Courier New", monospace;
-            font-size: 16px;
-        }
-
-        .terminal {
-            max-width: 850px;
-            margin: 40px auto;
-            padding: 25px;
-            border: 1px solid #008f11;
-            box-shadow: 0 0 20px #003b0b;
-        }
-
-        .header {
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #008f11;
-        }
-
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            text-shadow: 0 0 10px #00ff41;
-        }
-
-        .subtitle {
-            margin-top: 8px;
-            color: #008f11;
-            font-size: 13px;
-        }
-
-        #chat {
-            min-height: 300px;
-            line-height: 1.6;
-            overflow-wrap: anywhere;
-        }
-
-        .message {
-            margin-bottom: 18px;
-            white-space: pre-wrap;
-        }
-
-        .user {
-            color: #b5ffbf;
-        }
-
-        .system {
-            color: #00ff41;
-        }
-
-        .input-line {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid #008f11;
-        }
-
-        .prompt {
-            flex-shrink: 0;
-        }
-
-        input {
-            flex: 1;
-            min-width: 0;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: #00ff41;
-            font: inherit;
-            caret-color: #00ff41;
-        }
-
-        input::placeholder {
-            color: #276b35;
-        }
-
-        .cursor {
-            display: inline-block;
-            animation: blink 1s steps(2, start) infinite;
-        }
-
-        @keyframes blink {
-            to {
-                visibility: hidden;
-            }
-        }
-
-        .footer {
-            margin-top: 25px;
-            color: #276b35;
-            font-size: 12px;
-            text-align: center;
-        }
-
-        @media (max-width: 600px) {
-            .terminal {
-                margin: 10px;
-                padding: 15px;
-            }
-
-            .title {
-                font-size: 20px;
-            }
-        }
+        * { box-sizing: border-box; }
+        body { margin: 0; min-height: 100vh; background: #050805; color: #00ff41; font-family: "Courier New", monospace; font-size: 16px; }
+        .terminal { max-width: 850px; margin: 40px auto; padding: 25px; border: 1px solid #008f11; box-shadow: 0 0 20px #003b0b; }
+        .header { padding-bottom: 15px; margin-bottom: 20px; border-bottom: 1px solid #008f11; }
+        .header-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+        .title { font-size: 24px; font-weight: bold; text-shadow: 0 0 10px #00ff41; }
+        .subtitle { margin-top: 8px; color: #008f11; font-size: 13px; }
+        .language-switcher { display: flex; gap: 4px; }
+        .language-button { background: transparent; border: 1px solid #276b35; color: #276b35; font: inherit; font-size: 12px; padding: 4px 7px; cursor: pointer; }
+        .language-button:hover, .language-button:focus-visible, .language-button.active { border-color: #00ff41; color: #00ff41; outline: none; }
+        #chat { min-height: 300px; line-height: 1.6; overflow-wrap: anywhere; }
+        .message { margin-bottom: 18px; white-space: pre-wrap; }
+        .user { color: #b5ffbf; }
+        .system { color: #00ff41; }
+        .system-label { color: #008f11; }
+        .input-line { display: flex; align-items: center; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #008f11; }
+        .prompt { flex-shrink: 0; }
+        .input-shell { position: relative; flex: 1; min-width: 0; }
+        input { width: 100%; min-width: 0; background: transparent; border: none; outline: none; color: #00ff41; font: inherit; caret-color: transparent; padding: 0; }
+        input::placeholder { color: #276b35; }
+        .input-cursor { position: absolute; top: 50%; left: 0; color: #00ff41; line-height: 1; pointer-events: none; transform: translateY(-50%); animation: blink 1s steps(2, start) infinite; }
+        .input-shell:not(:focus-within) .input-cursor { visibility: hidden; }
+        @keyframes blink { to { visibility: hidden; } }
+        .submit-button { background: transparent; border: 1px solid #008f11; color: #00ff41; font: inherit; padding: 5px 10px; cursor: pointer; }
+        .submit-button:hover, .submit-button:focus-visible { background: #003b0b; outline: none; }
+        .hint { color: #276b35; font-size: 12px; margin-top: 12px; }
+        .footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 25px; padding-top: 12px; border-top: 1px solid #12351a; color: #276b35; font-size: 12px; }
+        @media (max-width: 600px) { .terminal { margin: 10px; padding: 15px; } .header-top { align-items: flex-start; } .title { font-size: 20px; } #chat { min-height: 250px; } }
     </style>
 </head>
-
 <body>
-
-    <main class="terminal">
-        <header class="header">
+<main class="terminal">
+    <header class="header">
+        <div class="header-top">
             <div class="title">MATRIX TERMINAL</div>
-            <div class="subtitle">
-                TERMINAL v0.1 // CONNECTION ESTABLISHED
+            <div class="language-switcher" aria-label="Language selector">
+                <button class="language-button active" type="button" data-locale="ru" aria-pressed="true">RU</button>
+                <button class="language-button" type="button" data-locale="en" aria-pressed="false">EN</button>
             </div>
-        </header>
-
-        <div id="chat" aria-live="polite"></div>
-
-        <form class="input-line" id="chat-form">
-            <span class="prompt">&gt;</span>
-
-            <input
-                id="user-input"
-                type="text"
-                placeholder="Enter your question..."
-                autocomplete="off"
-                autofocus
-                aria-label="Твой вопрос"
-            >
-
-            <span class="cursor">█</span>
-        </form>
-
-        <footer class="footer">
-            THERE IS NO SPOON // SYSTEM ONLINE
-        </footer>
-    </main>
+        </div>
+        <div class="subtitle" id="status"></div>
+    </header>
+    <div id="chat" aria-live="polite"></div>
+    <form class="input-line" id="chat-form">
+        <span class="prompt">&gt;</span>
+        <span class="input-shell">
+            <input id="user-input" type="text" autocomplete="off" autofocus>
+            <span class="input-cursor" id="input-cursor" aria-hidden="true">█</span>
+        </span>
+        <button class="submit-button" id="submit-button" type="submit">ENTER</button>
+    </form>
+    <div class="hint" id="hint"></div>
+    <footer class="footer"><span>THERE IS NO SPOON</span><span id="clock"></span></footer>
+</main>
+<script src="./js/app.js"></script>
+</body>
+</html>
