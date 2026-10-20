@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Terminal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #050805;
+            color: #00ff41;
+            font-family: "Courier New", monospace;
+            font-size: 16px;
+        }
+
+        .terminal {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 25px;
+            border: 1px solid #008f11;
+            box-shadow: 0 0 20px #003b0b;
+        }
+
+        .header {
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #008f11;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 0 0 10px #00ff41;
+        }
+
+        .subtitle {
+            margin-top: 8px;
+            color: #008f11;
+            font-size: 13px;
+        }
+
+        #chat {
+            min-height: 300px;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        .message {
+            margin-bottom: 18px;
+            white-space: pre-wrap;
+        }
+
+        .user {
+            color: #b5ffbf;
+        }
+
+        .system {
+            color: #00ff41;
+        }
+
+        .input-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #008f11;
+        }
+
+        .prompt {
+            flex-shrink: 0;
+        }
+
+        input {
+            flex: 1;
+            min-width: 0;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #00ff41;
+            font: inherit;
+            caret-color: #00ff41;
+        }
+
+        input::placeholder {
+            color: #276b35;
+        }
+
+        .cursor {
+            display: inline-block;
+            animation: blink 1s steps(2, start) infinite;
+        }
+
+        @keyframes blink {
+            to {
+                visibility: hidden;
+            }
+        }
+
+        .footer {
+            margin-top: 25px;
+            color: #276b35;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .terminal {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="terminal">
+        <header class="header">
+            <div class="title">MATRIX TERMINAL</div>
+            <div class="subtitle">
+                TERMINAL v0.1 // CONNECTION ESTABLISHED
+            </div>
+        </header>
+
+        <div id="chat" aria-live="polite"></div>
+
+        <form class="input-line" id="chat-form">
+            <span class="prompt">&gt;</span>
+
+            <input
+                id="user-input"
+                type="text"
+                placeholder="Введи свой вопрос..."
+                autocomplete="off"
+                autofocus
+                aria-label="Твой вопрос"
+            >
+
+            <span class="cursor">█</span>
+        </form>
+
+        <footer class="footer">
+            THERE IS NO SPOON // SYSTEM ONLINE
+        </footer>
+    </main>
