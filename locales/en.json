@@ -11,5 +11,5 @@
   "userLabel": "YOU > ",
   "systemLabel": "MATRIX > ",
   "welcome": ["INITIALIZING MATRIX TERMINAL...", "LOADING LOCAL KNOWLEDGE BASE...", "CONNECTION ESTABLISHED.", "", "Welcome.", "You may ask questions. Keep in mind:", "I am not connected to a real AI — my answers come from a local knowledge base.", "", "So, Neo... what do you want to know?"],
-  "fallbacks": ["Interesting query.\nThe system has not found a suitable answer yet.\nTry asking about the Matrix, reality, or choice.", "QUERY RECEIVED.\nNo answer found in the local database.\nPerhaps you asked something the system does not understand yet.", "I would answer in more detail, but I do not have access to all the wisdom in the universe.\nOnly a small JavaScript file.", "The system is thinking.\n...\nNo, that is not a profound thought. The local dictionary simply ran out.", "What if the right question matters more than the right answer?\nTry phrasing it differently."]
+  "fallbacks": ["QUERY RECEIVED.\nThe local database has no answer.\nPerhaps that is exactly why this question should be asked again — to another system."]
 }
